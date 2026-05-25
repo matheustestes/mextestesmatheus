@@ -242,6 +242,36 @@ textarea {
     max-width: 140px;
   }
 
+  .header-inner {
+    display: grid;
+    grid-template-columns: auto auto;
+    grid-template-areas:
+      "brand toggle"
+      "actions actions";
+    align-items: center;
+    justify-items: center;
+    gap: 0.75rem 1rem;
+    padding: 0.75rem 0;
+  }
+
+  .brand {
+    grid-area: brand;
+    justify-self: center;
+  }
+
+  .mobile-toggle {
+    grid-area: toggle;
+    justify-self: end;
+  }
+
+  .header-actions {
+    grid-area: actions;
+    width: 100%;
+    justify-content: center;
+    gap: 0.75rem;
+    margin-top: 0.15rem;
+  }
+
   .main-nav {
     gap: 0.75rem;
   }
