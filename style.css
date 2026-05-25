@@ -199,26 +199,51 @@ textarea {
   min-width: 0;
 }
 
-/* Mobile polish: reduce hero and logo on very small screens */
-@media (max-width: 420px) {
+/* Mobile polish: reduce hero and logo on small screens */
+@media (max-width: 768px) {
+  .brand-logo {
+    max-width: 180px;
+    height: auto;
+  }
+
+  .header-inner {
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.75rem;
+    padding: 0.85rem 0;
+  }
+
+  .main-nav {
+    flex: 1 1 100%;
+    justify-content: center;
+    gap: 0.9rem;
+    flex-wrap: wrap;
+    padding: 0.35rem 0;
+  }
+
+  .header-actions {
+    width: 100%;
+    justify-content: center;
+    gap: 0.75rem;
+  }
+
+  .hero {
+    padding-top: 7.5rem;
+    padding-bottom: 2rem;
+  }
+}
+
+@media (max-width: 520px) {
   .brand-logo {
     max-width: 140px;
-    height: auto;
+  }
+
+  .main-nav {
+    gap: 0.75rem;
   }
 
   .hero {
     padding-top: 6.5rem;
-    padding-bottom: 2rem;
-  }
-
-  .hero-photo-card,
-  .hero-photo-card img {
-    min-height: 220px;
-  }
-
-  .btn-whatsapp {
-    width: 100%;
-    min-width: 0;
   }
 }
 
