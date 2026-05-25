@@ -4,18 +4,38 @@ const header = document.querySelector('.site-header');
 const contactForm = document.querySelector('.contact-form');
 const formFeedback = document.querySelector('.form-feedback');
 
-mobileToggle?.addEventListener('click', () => {
+const closeMobileMenu = () => {
+  if (!mainNav?.classList.contains('open')) {
+    return;
+  }
+
+  mainNav.classList.remove('open');
+  mobileToggle?.setAttribute('aria-expanded', 'false');
+  mobileToggle?.setAttribute('aria-label', 'Abrir menu');
+};
+
+mobileToggle?.addEventListener('click', (event) => {
+  event.stopPropagation();
   const isOpen = mainNav?.classList.toggle('open') ?? false;
   mobileToggle.setAttribute('aria-expanded', String(isOpen));
   mobileToggle.setAttribute('aria-label', isOpen ? 'Fechar menu' : 'Abrir menu');
 });
 
+mainNav?.addEventListener('click', (event) => {
+  event.stopPropagation();
+});
+
 mainNav?.querySelectorAll('a').forEach((link) => {
   link.addEventListener('click', () => {
-    mainNav.classList.remove('open');
-    mobileToggle?.setAttribute('aria-expanded', 'false');
-    mobileToggle?.setAttribute('aria-label', 'Abrir menu');
+    closeMobileMenu();
   });
+});
+
+document.addEventListener('click', closeMobileMenu);
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape') {
+    closeMobileMenu();
+  }
 });
 
 window.addEventListener('scroll', () => {
@@ -31,13 +51,15 @@ contactForm?.addEventListener('submit', (event) => {
   event.preventDefault();
 
   const data = new FormData(contactForm);
-  const whatsapp = contactForm.dataset.whatsapp;
+  const email = contactForm.dataset.email;
+  const cc = contactForm.dataset.cc;
   const selectedNeed = contactForm.elements.need;
   const need = selectedNeed.options[selectedNeed.selectedIndex]?.text ?? data.get('need');
+  const subject = `Solicitação de atendimento - ${data.get('company')}`;
   const message = [
     'Olá, MEX TI!',
     '',
-    'Estou solicitando suporte para minha empresa.',
+    'Gostaria de solicitar atendimento.',
     '',
     `Nome: ${data.get('name')}`,
     `Empresa: ${data.get('company')}`,
@@ -47,22 +69,25 @@ contactForm?.addEventListener('submit', (event) => {
     `Mensagem: ${data.get('message') || 'Não informada'}`,
   ].join('\n');
 
-  if (!whatsapp) {
+  if (!email) {
     if (formFeedback) {
-      formFeedback.textContent = 'Configure o número do WhatsApp antes de publicar o formulário.';
+      formFeedback.textContent = 'Configure o e-mail de destino antes de publicar o formulário.';
     }
     return;
   }
 
-  const encodedMessage = encodeURIComponent(message);
-  const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-  const url = isMobile
-    ? `https://wa.me/${whatsapp}?text=${encodedMessage}`
-    : `https://web.whatsapp.com/send?phone=${whatsapp}&text=${encodedMessage}`;
+  const params = new URLSearchParams({
+    subject,
+    body: message,
+  });
 
-  if (formFeedback) {
-    formFeedback.textContent = 'Abrindo WhatsApp com sua solicitação...';
+  if (cc) {
+    params.set('cc', cc);
   }
 
-  window.location.href = url;
+  if (formFeedback) {
+    formFeedback.textContent = 'Abrindo seu aplicativo de e-mail para finalizar o envio.';
+  }
+
+  window.location.href = `mailto:${email}?${params.toString()}`;
 });
