@@ -110,7 +110,7 @@ textarea {
 }
 
 .brand-logo {
-  width: 270px;
+  max-width: 220px;
   height: auto;
   filter: none;
   border-radius: 12px;
@@ -196,7 +196,30 @@ textarea {
 }
 
 .btn-whatsapp {
-  min-width: 190px;
+  min-width: 0;
+}
+
+/* Mobile polish: reduce hero and logo on very small screens */
+@media (max-width: 420px) {
+  .brand-logo {
+    max-width: 140px;
+    height: auto;
+  }
+
+  .hero {
+    padding-top: 6.5rem;
+    padding-bottom: 2rem;
+  }
+
+  .hero-photo-card,
+  .hero-photo-card img {
+    min-height: 220px;
+  }
+
+  .btn-whatsapp {
+    width: 100%;
+    min-width: 0;
+  }
 }
 
 .mobile-toggle {
