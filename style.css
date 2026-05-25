@@ -277,7 +277,11 @@ textarea {
   }
 
   .hero {
-    padding-top: 6.5rem;
+    padding-top: 8.5rem;
+  }
+
+  .hero-copy {
+    margin-top: 1.25rem;
   }
 }
 
